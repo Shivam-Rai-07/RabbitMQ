@@ -12,13 +12,14 @@ connection = pika.BlockingConnection(connection_parameters)
 channel = connection.channel()
 
 # We need to declare which type of exchange are we using incase exchange is not default.
-channel.exchange_declare(exchange = 'fan-out', exchange_type = ExchangeType.fanout)
+channel.exchange_declare(exchange = 'direct-exchange', exchange_type = ExchangeType.direct)
 
-message = "Hello! I want to broadcast this message to all the consumers."
 
-# Even if we specify routing key, it will broadcast to all the queues.
-channel.basic_publish(exchange = 'fan-out', routing_key = '', body = message)
+routing_array = ['user', 'payment', 'all']
 
-print(f"\nSent message: {message}")
+for routing_key in routing_array:
+    message = f"Hello! This is a new message with routing key as {routing_key}."
+    channel.basic_publish(exchange = 'direct-exchange', routing_key = routing_key, body = message)
+    print(f"\nSent message: {message}")
 
 connection.close()
