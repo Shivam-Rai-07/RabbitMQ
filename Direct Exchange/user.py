@@ -12,13 +12,13 @@ connection_parameters = pika.ConnectionParameters(host='localhost', port=5672)
 connection = pika.BlockingConnection(connection_parameters)
 
 # We always interact with broker using a channel
-channel = connection.channel() 
+channel = connection.channel()
 
 # Declaring exchange is also an idempotent operation.
 channel.exchange_declare(exchange = 'direct-exchange', exchange_type = ExchangeType.direct)
 
 # Exclusive = true means that queue will be automatically deleted once consumer goes down.
-queue = channel.queue_declare(queue = 'user-queue', exclusive = True) 
+queue = channel.queue_declare(queue = 'user-queue', exclusive = True)
 
 # Previously we were binding the queue to an exchange without any routing key. But for direct exchange we need routing key.
 channel.queue_bind(exchange = 'direct-exchange', queue = 'user-queue', routing_key = 'user')
@@ -30,5 +30,5 @@ channel.basic_consume(queue = 'user-queue', auto_ack = True, on_message_callback
 
 channel.start_consuming()
 
-# A queue can be bound with the a single exchange using multiple routing keys.
+# A queue can be bound with a single exchange using multiple routing keys.
 # Also a queue can be bound with multiple exchanges.
