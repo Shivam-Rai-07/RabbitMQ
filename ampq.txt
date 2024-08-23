@@ -1,0 +1,13 @@
+AMQP connections are long-lived TCP connections established between your application and the RabbitMQ broker. A connection can have multiple channels.
+
+In RabbitMQ, the AMQP 0-9-1 protocol is used for both producers and consumers to interact with the broker. It is used to
+    Publish messages from a producer to an exchange.
+    Consume messages from a queue.
+    Acknowledge messages once they are processed successfully.
+    Manage queues, exchanges, bindings, and other entities dynamically via commands sent through channels
+
+AMQP 0-9-1 Connection in RabbitMQ:
+    TCP Connection: The client establishes a TCP connection to RabbitMQ.
+    AMQP 0-9-1 Handshake: Once the TCP connection is established, the client and RabbitMQ perform a handshake to start the AMQP communication, which involves authentication, protocol negotiation, and connection setup.
+    Channels: Multiple channels can be created over a single connection, allowing multiple threads or producers/consumers to share the same connection without interference.
+    AMQP 0-9-1 is a highly flexible and reliable protocol, ensuring message delivery with various guarantees, such as at-least-once delivery, transactionality, and message durability.
